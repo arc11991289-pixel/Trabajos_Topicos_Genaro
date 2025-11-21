@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F5F5F5">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <Button
+            android:id="@+id/btnExportar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exportar a CSV (Excel)"
+            android:backgroundTint="#2196F3"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnGuardar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/lblStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desconectado"
+            android:textColor="#D32F2F"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/btnConnect"/>
+
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Conectar Lector"
+            app:icon="@android:drawable/stat_sys_data_bluetooth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
+
+        <TextView
+            android:id="@+id/lblRfidTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ÚLTIMO TAG LEÍDO (128 bits)"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+        <TextView
+            android:id="@+id/txtRfidDisplay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#E0E0E0"
+            android:padding="16dp"
+            android:text="Esperando lectura..."
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblRfidTitle" />
+
+        <EditText
+            android:id="@+id/etArticulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="Número de Artículo / SKU"
+            android:inputType="textCapCharacters"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRfidDisplay" />
+
+        <EditText
+            android:id="@+id/etDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Descripción del producto"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etArticulo" />
+
+        <EditText
+            android:id="@+id/etCant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Cantidad"
+            android:inputType="number"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDesc" />
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="GUARDAR REGISTRO"
+            android:textSize="18sp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#4CAF50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCant"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

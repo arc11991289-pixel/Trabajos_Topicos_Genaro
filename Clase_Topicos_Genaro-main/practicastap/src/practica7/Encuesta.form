@@ -1,0 +1,260 @@
+package practica7;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ * Formulario que recopila preferencias de usuario (OS, Especialidad y Horas de trabajo).
+ * * Basado en la definición Form version="1.3" (XML de NetBeans).
+ */
+public class FormularioPreferencias extends javax.swing.JFrame {
+    
+    private static final Logger REGISTRO = Logger.getLogger(FormularioPreferencias.class.getName());
+
+    /**
+     * Crea un nuevo formulario FormularioPreferencias.
+     */
+    public FormularioPreferencias() {
+        initComponents();
+        // Inicializa el JLabel con el valor actual del JSlider (que es 8 en el XML)
+        this.lbHoras.setText(String.valueOf(this.slHoras.getValue()));
+        setLocationRelativeTo(null);
+    }
+
+    /**
+     * Este método es llamado desde el constructor para inicializar el formulario.
+     * ADVERTENCIA: No modifique este código. Es generado por el Editor de Formularios.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        labelTituloOS = new javax.swing.JLabel();
+        labelTituloEspecialidad = new javax.swing.JLabel();
+        labelTituloHoras = new javax.swing.JLabel();
+        rbWin = new javax.swing.JRadioButton();
+        rbLnx = new javax.swing.JRadioButton();
+        rbMac = new javax.swing.JRadioButton();
+        ckPrg = new javax.swing.JCheckBox();
+        ckGrf = new javax.swing.JCheckBox();
+        ckAdm = new javax.swing.JCheckBox();
+        separadorOS = new javax.swing.JSeparator();
+        separadorEspecialidad = new javax.swing.JSeparator();
+        slHoras = new javax.swing.JSlider();
+        btnGuardar = new javax.swing.JButton();
+        lbHoras = new javax.swing.JLabel();
+
+        buttonGroup1.setToolTipText("");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Configuración de Preferencias");
+        setResizable(false);
+
+        labelTituloOS.setText("Elige un sistema operativo");
+
+        labelTituloEspecialidad.setText("Elige tu especialidad");
+
+        labelTituloHoras.setText("Horas que le dedicas al trabajo");
+
+        buttonGroup1.add(rbWin);
+        rbWin.setSelected(true);
+        rbWin.setText("Windows");
+
+        buttonGroup1.add(rbLnx);
+        rbLnx.setText("Linux");
+
+        buttonGroup1.add(rbMac);
+        rbMac.setText("Mac");
+
+        ckPrg.setText("Programación");
+
+        ckGrf.setText("Diseño Gráfico");
+
+        ckAdm.setText("Administración");
+
+        slHoras.setMaximum(24);
+        slHoras.setValue(8);
+        slHoras.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slHorasStateChanged(evt);
+            }
+        });
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        lbHoras.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbHoras.setText("0");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(separadorOS)
+                    .addComponent(separadorEspecialidad)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelTituloEspecialidad)
+                                    .addComponent(labelTituloOS)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(rbWin)
+                                            .addComponent(rbLnx)
+                                            .addComponent(rbMac)))
+                                    .addComponent(labelTituloHoras)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ckGrf)
+                                    .addComponent(ckPrg)
+                                    .addComponent(ckAdm)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(lbHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(88, 88, 88)
+                                .addComponent(btnGuardar)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(slHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(labelTituloOS)
+                .addGap(12, 12, 12)
+                .addComponent(rbWin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbLnx)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbMac)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(separadorOS, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(labelTituloEspecialidad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ckPrg)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ckGrf)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ckAdm)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(separadorEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(labelTituloHoras)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(slHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbHoras)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addGap(14, 14, 14))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Actualiza el JLabel de horas cuando el JSlider cambia de valor.
+     * @param evt El evento de cambio de estado del JSlider.
+     */
+    private void slHorasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slHorasStateChanged
+        this.lbHoras.setText(String.valueOf(this.slHoras.getValue()));
+    }//GEN-LAST:event_slHorasStateChanged
+
+    /**
+     * Muestra la configuración seleccionada por el usuario en un JOptionPane.
+     * @param evt El evento de acción del botón.
+     */
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // 1. Obtener el Sistema Operativo seleccionado
+        String os = "";
+        if (rbWin.isSelected()) {
+            os = rbWin.getText();
+        } else if (rbLnx.isSelected()) {
+            os = rbLnx.getText();
+        } else if (rbMac.isSelected()) {
+            os = rbMac.getText();
+        }
+
+        // 2. Obtener las especialidades seleccionadas
+        StringBuilder especialidades = new StringBuilder();
+        if (ckPrg.isSelected()) {
+            especialidades.append(ckPrg.getText()).append(", ");
+        }
+        if (ckGrf.isSelected()) {
+            especialidades.append(ckGrf.getText()).append(", ");
+        }
+        if (ckAdm.isSelected()) {
+            especialidades.append(ckAdm.getText()).append(", ");
+        }
+        
+        String especialidadFinal = especialidades.length() > 0 
+                ? especialidades.substring(0, especialidades.length() - 2) // Eliminar la última coma y espacio
+                : "Ninguna";
+
+        // 3. Obtener las horas del JSlider
+        int horas = slHoras.getValue();
+
+        // 4. Mostrar el resumen
+        String mensaje = String.format(
+                "Preferencias guardadas:\n\n"
+                + "Sistema Operativo: %s\n"
+                + "Especialidad(es): %s\n"
+                + "Horas de trabajo: %d horas/día",
+                os, especialidadFinal, horas
+        );
+        
+        JOptionPane.showMessageDialog(this, mensaje, "Resumen de Preferencias", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    /**
+     * Método principal para iniciar la aplicación.
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the System Look and Feel */
+        try {
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            REGISTRO.log(Level.SEVERE, "Error al configurar el Look and Feel del sistema", ex);
+        }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new FormularioPreferencias().setVisible(true));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox ckAdm;
+    private javax.swing.JCheckBox ckGrf;
+    private javax.swing.JCheckBox ckPrg;
+    private javax.swing.JLabel labelTituloEspecialidad;
+    private javax.swing.JLabel labelTituloHoras;
+    private javax.swing.JLabel labelTituloOS;
+    private javax.swing.JLabel lbHoras;
+    private javax.swing.JRadioButton rbLnx;
+    private javax.swing.JRadioButton rbMac;
+    private javax.swing.JRadioButton rbWin;
+    private javax.swing.JSeparator separadorEspecialidad;
+    private javax.swing.JSeparator separadorOS;
+    private javax.swing.JSlider slHoras;
+    // End of variables declaration//GEN-END:variables
+}

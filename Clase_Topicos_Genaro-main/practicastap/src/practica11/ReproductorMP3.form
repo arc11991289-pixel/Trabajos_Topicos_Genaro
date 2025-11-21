@@ -1,0 +1,218 @@
+package practica11;
+
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+/**
+ * Interfaz básica para un Reproductor de MP3 (simulación de la interfaz).
+ * Utiliza SwingWorker para manejar la barra de progreso en un hilo de fondo.
+ */
+public class ReproductorMP3 extends javax.swing.JFrame {
+
+    private static final Logger logger = Logger.getLogger(ReproductorMP3.class.getName());
+
+    // --- Variables de Control ---
+    private File archivoActual;
+    private boolean isPlaying = false;
+    private ProgressWorker progressWorker; // SwingWorker para el progreso
+    
+    // Simulación: La duración total del archivo en segundos (simulada)
+    private final int DURACION_TOTAL_SEGUNDOS = 60; 
+
+    /**
+     * Creates new form ReproductorMP3
+     */
+    public ReproductorMP3() {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        actualizarEstado(false, "Listo");
+    }
+
+    // --- Métodos de Lógica ---
+    
+    /**
+     * Actualiza el estado visual de los componentes (botones, etiquetas).
+     * @param playing Indica si se está reproduciendo o no.
+     * @param status Mensaje de estado.
+     */
+    private void actualizarEstado(boolean playing, String status) {
+        isPlaying = playing;
+        Estado.setText("Estado: " + status);
+        PlayPause.setText(isPlaying ? " ⏸️" : " ▶️");
+        Detener.setEnabled(isPlaying);
+        BarraProgreso.setValue(isPlaying ? BarraProgreso.getValue() : 0);
+        
+        // Si se detiene, actualiza el tiempo y el progreso
+        if (!playing && status.equals("Detenido")) {
+            Tiempo.setText("00:00 / " + formatTime(DURACION_TOTAL_SEGUNDOS));
+            BarraProgreso.setValue(0);
+        }
+    }
+    
+    /**
+     * Convierte segundos a formato MM:SS.
+     */
+    private String formatTime(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+    
+    // -------------------------------------------------------------------------
+    // ⚙️ SWINGWORKER PARA EL MANEJO DEL PROGRESO (SIN BLOQUEAR EL EDT)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Clase SwingWorker para manejar la simulación de reproducción
+     * y actualización de la barra de progreso en un hilo de fondo.
+     */
+    class ProgressWorker extends SwingWorker<Void, Integer> {
+
+        private int currentTime = 0;
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            BarraProgreso.setMaximum(DURACION_TOTAL_SEGUNDOS);
+            BarraProgreso.setMinimum(0);
+            
+            // Bucle principal de la simulación de reproducción
+            while (!isCancelled() && currentTime < DURACION_TOTAL_SEGUNDOS) {
+                // Simulación de audio/trabajo: Dormir por 1 segundo
+                Thread.sleep(1000); 
+                currentTime++;
+                
+                // Publicar el progreso (llama a process en el EDT)
+                publish(currentTime); 
+            }
+            return null;
+        }
+
+        // Se ejecuta en el Event Dispatch Thread (EDT)
+        @Override
+        protected void process(java.util.List<Integer> chunks) {
+            // Obtiene el último valor publicado
+            int latestTime = chunks.get(chunks.size() - 1); 
+            BarraProgreso.setValue(latestTime);
+            Tiempo.setText(formatTime(latestTime) + " / " + formatTime(DURACION_TOTAL_SEGUNDOS));
+        }
+
+        // Se ejecuta en el Event Dispatch Thread (EDT) cuando doInBackground termina
+        @Override
+        protected void done() {
+            try {
+                if (!isCancelled()) {
+                    actualizarEstado(false, "Reproducción Finalizada");
+                    JOptionPane.showMessageDialog(null, "Reproducción terminada.");
+                } else {
+                    // El hilo fue cancelado (Detener o Play/Pause)
+                    logger.log(Level.INFO, "Reproducción cancelada.");
+                }
+            } catch (Exception e) {
+                 logger.log(Level.SEVERE, "Error al finalizar el worker", e);
+            }
+        }
+        
+        // Permite reanudar desde donde se detuvo (solo para fines de simulación)
+        public void setStartTime(int time) {
+            this.currentTime = time;
+        }
+    }
+
+    // --- Manejo de Eventos (Action Performed) ---
+    
+    private void PlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayPauseActionPerformed
+        if (archivoActual == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un archivo primero.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (isPlaying) {
+            // PAUSE: Cancelar el worker actual
+            if (progressWorker != null) {
+                progressWorker.cancel(true);
+            }
+            actualizarEstado(false, "Pausa");
+        } else {
+            // PLAY/RESUME: Crear o reanudar el worker
+            int startTime = BarraProgreso.getValue();
+            progressWorker = new ProgressWorker();
+            
+            // Si no está en 0, reanudar
+            if (startTime > 0) {
+                 progressWorker.setStartTime(startTime);
+            }
+            
+            progressWorker.execute(); // Inicia la ejecución en el hilo de fondo
+            actualizarEstado(true, "Reproduciendo");
+        }
+    }//GEN-LAST:event_PlayPauseActionPerformed
+
+    private void SeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarActionPerformed
+        // Cancelar reproducción actual si existe
+        if (progressWorker != null && !progressWorker.isDone()) {
+            progressWorker.cancel(true);
+        }
+        
+        // Componente JFileChooser (no visual en el XML, pero necesario)
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccionar Archivo MP3");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos MP3", "mp3"));
+        
+        int userSelection = fileChooser.showOpenDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            archivoActual = fileChooser.getSelectedFile();
+            Archivo.setText("Archivo: " + archivoActual.getName());
+            actualizarEstado(false, "Archivo cargado");
+            BarraProgreso.setValue(0);
+            Tiempo.setText("00:00 / " + formatTime(DURACION_TOTAL_SEGUNDOS));
+            
+            // Lógica para cargar el archivo MP3 real aquí (omitiendo la librería de audio)
+        } else {
+            Archivo.setText("Archivo: Ninguno seleccionado");
+        }
+    }//GEN-LAST:event_SeleccionarActionPerformed
+
+    private void DetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetenerActionPerformed
+        if (progressWorker != null && !progressWorker.isDone()) {
+            progressWorker.cancel(true);
+        }
+        actualizarEstado(false, "Detenido");
+        
+        // Reiniciar la simulación del progreso
+        BarraProgreso.setValue(0); 
+    }//GEN-LAST:event_DetenerActionPerformed
+
+    // --- Código de Componentes Generado por NetBeans ---
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the System look and feel */
+        try {
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(Level.SEVERE, "Error al configurar el Look and Feel", ex);
+        }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new ReproductorMP3().setVisible(true));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Archivo;
+    private javax.swing.JProgressBar BarraProgreso;
+    private javax.swing.JButton Detener;
+    private javax.swing.JLabel Estado;
+    private javax.swing.JButton PlayPause;
+    private javax.swing.JButton Seleccionar;
+    private javax.swing.JLabel Tiempo;
+    private javax.swing.JFileChooser jFileChooser1;
+    // End of variables declaration//GEN-END:variables
+}

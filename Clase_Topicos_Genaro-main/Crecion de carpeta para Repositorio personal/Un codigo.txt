@@ -1,0 +1,46 @@
+Conversion de archivos mp4 a .avi y a baja resolución para Stereo.
+@echo off
+REM ==================================================================================
+REM 🛑 RUTA FFmpeg: ASEGÚRATE DE QUE ESTA RUTA SEA CORRECTA
+set "FFMPEG_PATH=C:\Users\AlanSaurio\Desktop\ffmpeg-master-latest-win64-gpl-shared\bin\ffmpeg.exe"
+REM ==================================================================================
+
+set "InputFolder=."
+REM **** CAMBIO DE CARPETA Y EXTENSIÓN DE SALIDA ****
+set "OutputFolder=Convertido_AVI"
+set "EXT_SALIDA=.avi"
+
+set "BITRATE_VIDEO=800k"
+set "BITRATE_AUDIO=128k"
+set "RESOLUCION=640x480"
+
+REM ✅ CREANDO CARPETA DE SALIDA
+if not exist "%OutputFolder%" (
+    echo Creando la carpeta de salida: "%OutputFolder%"
+    mkdir "%OutputFolder%"
+) else (
+    echo La carpeta de salida ya existe.
+)
+
+echo.
+echo Iniciando conversi├│n a AVI/MPEG-4/MP3 para m├íxima compatibilidad...
+
+for %%f in (*.mp4 *.mkv *.avi) do (
+    echo Procesando "%%f"...
+    
+    REM **** COMANDO PARA FORMATO AVI ****
+    REM -c:v mpeg4: Fuerza el códec de video MPEG-4.
+    REM -tag:v xvid: Es compatible con el contenedor AVI.
+    REM -c:a libmp3lame: C├│dec de audio universal (MP3).
+    "%FFMPEG_PATH%" -i "%%f" -c:v mpeg4 -tag:v xvid -s %RESOLUCION% -b:v %BITRATE_VIDEO% -c:a libmp3lame -b:a %BITRATE_AUDIO% "%OutputFolder%\%%~nf%EXT_SALIDA%"
+    
+    if errorlevel 0 (
+        echo Conversi├│n de "%%f" completada.
+    ) else (
+        echo ❌ ERROR en la conversi├│n de "%%f".
+    )
+    echo.
+)
+
+echo Proceso de Lote Terminado.
+pause

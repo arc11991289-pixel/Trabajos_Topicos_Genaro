@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyApp</string>
+    <string name="lblDir">Direccion</string>
+    <string name="btnTomarFoto">Tomar Foto</string>
+    <string name="btnAbrirActivityFoto">Actividad para Tomar Foto</string>
+    <string name="btnAccion">Accion</string>
+    <string name="textMensajeRecibido">Mensaje de la segunda actividad</string>
+    <string name="editNom">Nombre</string>
+    <string name="editTel">Telefono</string>
+    <string name="fragment1_message">Fragmento</string>
+    <string name="btnAbrirActivityMapa">Abrir Mapa</string>
+    <string name="title_activity_main">Principal</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="foto">Foto</string>
+    <string name="nombre">Nombre</string>
+</resources>

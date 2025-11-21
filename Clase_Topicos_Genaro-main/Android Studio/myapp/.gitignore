@@ -1,0 +1,13 @@
+# Archivos de la configuración del IDE (MUY IMPORTANTE)
+*.iml
+.DS_Store
+
+# Directorios de configuración de IDE y de Gradle
+.gradle
+/.idea
+/local.properties
+/.externalNativeBuild
+
+# Directorios de compilación y temporales
+/build
+/captures

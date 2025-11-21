@@ -1,0 +1,12 @@
+Windows,N,N,S,5
+Linux,S,N,N,14
+Mac,N,S,N,10
+Windows,S,S,S,16
+Linux,S,N,N,15
+Linux,S,N,N,10
+Windows,N,N,S,13
+Windows,N,N,S,13
+Windows,N,N,S,8
+Windows,N,N,S,8
+Windows,N,N,S,8
+Linux,S,N,N,12
